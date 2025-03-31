@@ -97,7 +97,7 @@ def edit_product(pro_id):
         category = request.form['category']
 
         try:
-            conn.execute('UPDATE Products SET name = ?, price = ?, unit = ?, qty = ?, category = ? WHERE pro_id = ?', 
+            conn.execute('UPDATE Products SET name = ?, price = ?, unit = ?, qty = ?, category_id = ? WHERE pro_id = ?', 
                          (name, price, unit, qty, category, pro_id))
             conn.commit()
             conn.close()
