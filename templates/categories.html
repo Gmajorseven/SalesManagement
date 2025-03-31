@@ -1,0 +1,33 @@
+<!-- templates/categories.html -->
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Product Categories</h2>
+    <table class='table table-bordered mt-3'>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in categories %}
+            <tr>
+                <td>{{ category['proc_id'] }}</td>
+                <td>{{ category['name'] }}</td>
+                <td>
+                    <a href='/edit_category/{{ category["proc_id"] }}' class='btn btn-warning btn-sm'>Edit</a>
+                    <a href='/delete_category/{{ category["proc_id"] }}' class='btn btn-danger btn-sm'>Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Add New Category</h3>
+    <form action='/add_category' method='post'>
+        <input type='text' name='name' placeholder='Category Name' required class='form-control mb-2'>
+        <button type='submit' class='btn btn-success'>Add Category</button>
+    </form>
+{% endblock %}
+

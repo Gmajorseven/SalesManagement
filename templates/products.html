@@ -1,0 +1,51 @@
+<!-- templates/products.html -->
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Products</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Unit</th>
+                <th>Quantity</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product['pro_id'] }}</td>
+                <td>{{ product['name'] }}</td>
+                <td>{{ product['price'] }}</td>
+                <td>{{ product['unit'] }}</td>
+                <td>{{ product['qty'] }}</td>
+                <td>{{ product['category'] }}</td>
+                <td>
+                    <a href="/edit_product/{{ product['pro_id'] }}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="/delete_product/{{ product['pro_id'] }}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination controls -->
+    <div class="pagination">
+        {% if has_prev %}
+        <a href="{{ url_for('product_bp.products', page=page-1) }}" class="btn btn-secondary">Previous</a>
+        {% endif %}
+        
+        <span>Page {{ page }} of {{ total_pages }}</span>
+        
+        {% if has_next %}
+        <a href="{{ url_for('product_bp.products', page=page+1) }}" class="btn btn-secondary">Next</a>
+        {% endif %}
+    </div>
+
+    <a href="{{ url_for('product_bp.add_product') }}" class="btn btn-success mt-3">Add New Product</a>
+{% endblock %}
+

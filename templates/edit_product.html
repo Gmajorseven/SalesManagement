@@ -1,0 +1,21 @@
+<!-- templates/edit_product.html -->
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Edit Product</h2>
+    <form action='/edit_product/{{ product["pro_id"] }}' method='post'>
+        <input type='text' name='name' value='{{ product["name"] }}' required class='form-control mb-2'>
+        <input type='number' name='price' value='{{ product["price"] }}' required class='form-control mb-2'>
+        <input type='text' name='unit' value='{{ product["unit"] }}' required class='form-control mb-2'>
+        <input type='number' name='qty' value='{{ product["qty"] }}' required class='form-control mb-2'>
+        
+        <!-- Dropdown for selecting category -->
+        <select name='category' class='form-control mb-2'>
+            {% for category in categories %}
+                <option value="{{ category['proc_id'] }}" {% if category['proc_id'] == product['category'] %}selected{% endif %}>{{ category['name'] }}</option>
+            {% endfor %}
+        </select>
+        
+        <button type='submit' class='btn btn-success'>Update Product</button>
+    </form>
+{% endblock %}
+
