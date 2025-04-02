@@ -1,58 +1,9 @@
-<!-- templates/customers.html -->
 {% extends 'base.html' %}
+
 {% block content %}
-    <h2>Customers</h2>
-    <table class='table table-bordered mt-3'>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for fcustomer in fcustomers %}
-            <tr>
-                <td>{{ fcustomer['cus_id'] }}</td>
-                <td>{{ fcustomer['name'] }}</td>
-                <td>{{ fcustomer['email'] }}</td>
-                <td>{{ fcustomer['tel'] }}</td>
-                <td>
-                    <a href='/edit_customer/{{ fcustomer["cus_id"] }}' class='btn btn-warning btn-sm'>Edit</a>
-                    <a href='/delete_customer/{{ fcustomer["cus_id"] }}' class='btn btn-danger btn-sm'>Delete</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <div class="pagination d-flex justify-content-center">
-        {% if has_prev %}
-            <a href="{{ url_for('customer_bp.customers', page=page-1) }}" class="btn btn-primary mx-4">Previous</a>
-        {% else %}
-            <button class="btn btn-secondary mx-4" disabled>Previous</button>
-        {% endif %}
+<h2>Sales Price Overview</h2>
 
-        <span>Page {{ page }} of {{ total_pages }}</span>
-        
-        {% if has_next %}
-            <a href="{{ url_for('customer_bp.customers', page=page+1) }}" class="btn btn-primary mx-4">Next</a>
-        {% else %}
-            <button class="btn btn-secondary mx-4" disabled>Next</button>
-        {% endif %}
-    </div>
-    <br/>
-    <h3>Add New Customer</h3>
-    <form action='/add_customer' method='post'>
-        <input type='text' name='name' placeholder='Name' required class='form-control mb-2'>
-        <input type='email' name='email' placeholder='Email' required class='form-control mb-2'>
-        <input type='text' name='tel' placeholder='Phone' required class='form-control mb-2'>
-        <button type='submit' class='btn btn-success'>Add Customer</button>
-    </form>
-
-<h3 class="mt-4">Sales Price Overview</h3>
-<form method="POST" action="{{ url_for('customer_bp.customers') }}">
+<form method="POST" action="{{ url_for('sales_price_overview') }}">
     <div class="row">
         <div class="col-md-3">
             <label>Year</label>
@@ -108,7 +59,7 @@
 </form>
 
 {% if sales %}
-<h3 class="mt-4">Filtered Sales</h3>
+<h3 class="mt-4">Sales Results</h3>
 <table class="table table-bordered mt-3">
     <thead>
         <tr>
@@ -138,8 +89,6 @@
     </tbody>
 </table>
 {% endif %}
-
-<div class="mt-5" style="height: 100px;"></div>
 
 {% endblock %}
 

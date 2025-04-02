@@ -5,6 +5,12 @@ from routes import customer_bp, category_bp, product_bp
 app = Flask(__name__)
 app.secret_key = 'secret_key'  # For flash messages
 
+def get_db_connection():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
 # Register the Blueprint
 app.register_blueprint(customer_bp)
 app.register_blueprint(category_bp)

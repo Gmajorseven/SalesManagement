@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Add Sales Transaction</h2>
+
+<form method="POST" action="/add_sales_transaction">
+    <div class="mb-3">
+        <label class="form-label">Customer</label>
+        <select name="cus_id" class="form-control" required>
+            <option value="">-- Select Customer --</option>
+            {% for customer in customers %}
+                <option value="{{ customer.cus_id }}">{{ customer.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Salesperson</label>
+        <select name="sp_id" class="form-control" required>
+            <option value="">-- Select Salesperson --</option>
+            {% for salesperson in salespersons %}
+                <option value="{{ salesperson.sp_id }}">{{ salesperson.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <h4>Products</h4>
+    <div id="product-list">
+        <div class="row product-entry">
+            <div class="col-md-5">
+                <label class="form-label">Product</label>
+                <select name="product_id" class="form-control product-select" required>
+                    <option value="">-- Select Product --</option>
+                    {% for product in products %}
+                        <option value="{{ product.pro_id }}" data-price="{{ product.price }}">{{ product.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Quantity</label>
+                <input type="number" name="quantity" class="form-control quantity-input" min="1" required>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Price</label>
+                <input type="text" class="form-control price-display" disabled>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-danger remove-product">X</button>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-secondary mt-2" id="add-product">+ Add Product</button>
+
+    <div class="mb-3 mt-3">
+        <label class="form-label">Total Price</label>
+        <input type="text" name="st_total" id="total-price" class="form-control" readonly required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+    function updateTotal() {
+        let total = 0;
+        document.querySelectorAll('.product-entry').forEach(entry => {
+            let price = parseFloat(entry.querySelector('.product-select option:checked').dataset.price || 0);
+            let qty = parseFloat(entry.querySelector('.quantity-input').value || 0);
+            let totalPrice = price * qty;
+            entry.querySelector('.price-display').value = totalPrice.toFixed(2);
+            total += totalPrice;
+        });
+        document.getElementById('total-price').value = total.toFixed(2);
+    }
+
+    document.getElementById('product-list').addEventListener('change', updateTotal);
+    document.getElementById('product-list').addEventListener('input', updateTotal);
+
+    document.getElementById('add-product').addEventListener('click', function () {
+        let newEntry = document.querySelector('.product-entry').cloneNode(true);
+        newEntry.querySelector('.quantity-input').value = '';
+        newEntry.querySelector('.price-display').value = '';
+        document.getElementById('product-list').appendChild(newEntry);
+    });
+
+    document.getElementById('product-list').addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-product')) {
+            e.target.closest('.product-entry').remove();
+            updateTotal();
+        }
+    });
+</script>
+
+{% endblock %}
+

@@ -34,15 +34,19 @@
     </table>
 
     <!-- Pagination controls -->
-    <div class="pagination">
+    <div class="pagination d-flex justify-content-center">
         {% if has_prev %}
-        <a href="{{ url_for('product_bp.products', page=page-1) }}" class="btn btn-secondary">Previous</a>
+        <a href="{{ url_for('product_bp.products', page=page-1) }}" class="btn btn-primary mx-4">Previous</a>
+        {% else %}
+        <button class="btn btn-secondary mx-4" disabled>Previous</button>
         {% endif %}
         
         <span>Page {{ page }} of {{ total_pages }}</span>
         
         {% if has_next %}
-        <a href="{{ url_for('product_bp.products', page=page+1) }}" class="btn btn-secondary">Next</a>
+        <a href="{{ url_for('product_bp.products', page=page+1) }}" class="btn btn-primary mx-4">Next</a>
+        {% else %}
+        <button class="btn btn-secondary mx-4" disabled>Next</button>
         {% endif %}
     </div>
 

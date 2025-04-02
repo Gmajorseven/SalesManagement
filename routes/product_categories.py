@@ -28,33 +28,43 @@ def categories():
 # Route to add a new category
 @category_bp.route('/add_category', methods=['POST'])
 def add_category():
-    name = request.form['name']
+    try:    
+        name = request.form['name']
     
-    conn = get_db_connection()
-    conn.execute('INSERT INTO Product_categories (name) VALUES (?)', (name,))
-    conn.commit()
-    conn.close()
+        conn = get_db_connection()
+        conn.execute('INSERT INTO Product_categories (name) VALUES (?)', (name,))
+        conn.commit()
+        conn.close()
     
-    flash('Category added successfully!', 'success')
+        flash('Category added successfully!', 'success')
+
+    except Exception as e:
+        flash(f"Error adding category: {str(e)}", 'danger')
+
     return redirect(url_for('category_bp.categories'))
 
 # Route to edit an existing category
 @category_bp.route('/edit_category/<int:proc_id>', methods=['GET', 'POST'])
 def edit_category(proc_id):
-    conn = get_db_connection()
-    category = conn.execute('SELECT * FROM Product_categories WHERE proc_id = ?', (proc_id,)).fetchone()
+    try:
+        conn = get_db_connection()
+        category = conn.execute('SELECT * FROM Product_categories WHERE proc_id = ?', (proc_id,)).fetchone()
     
-    if request.method == 'POST':
-        name = request.form['name']
+        if request.method == 'POST':
+            name = request.form['name']
         
-        conn.execute('UPDATE Product_categories SET name = ? WHERE proc_id = ?', (name, proc_id))
-        conn.commit()
-        conn.close()
-        flash('Category updated successfully!', 'info')
-        return redirect(url_for('category_bp.categories'))
+            conn.execute('UPDATE Product_categories SET name = ? WHERE proc_id = ?', (name, proc_id))
+            conn.commit()
+            conn.close()
+            flash('Category updated successfully!', 'info')
+            return redirect(url_for('category_bp.categories'))
     
-    conn.close()
-    return render_template('edit_category.html', category=category)
+        conn.close()
+        return render_template('edit_category.html', category=category)
+
+    except Exception as e:
+        flash(f"Error updating category: {str(e)}", 'danger')
+        return redirect(url_for('caregory_bp.categories'))
 
 # Route to delete a category
 @category_bp.route('/delete_category/<int:proc_id>')
