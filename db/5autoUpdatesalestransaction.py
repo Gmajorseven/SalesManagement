@@ -14,7 +14,7 @@ def updateSalestransaction():
         for i in range(len(bills_id)):
             bill_id = bills_id[i]
             cursor.execute('''
-                UPDATE Sales_transactions SET st_total = (SELECT SUM(Products.price * Sales_products.purchased_qty) as st_total
+                UPDATE Sales_transactions SET st_total = (SELECT ROUND(SUM(Products.price * Sales_products.purchased_qty), 2) as st_total
                 FROM Products INNER JOIN Sales_products ON Products.pro_id = Sales_products.product_id WHERE sales_transaction_id = ?)
                 WHERE st_id = ?;
             ''', (bill_id, bill_id))
