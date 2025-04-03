@@ -33,7 +33,7 @@ def insert_customers(n=100):
         email = fake.unique.email()
         tel = fake_phone_number(fake)
 
-        cursor.execute("INSERT INTO Customers(name, email, tel) VALUES(?, ?, ?)", (name, email, tel))
+        cursor.execute("INSERT OR IGNORE INTO Customers(name, email, tel) VALUES(?, ?, ?)", (name, email, tel))
 
     conn.commit()
     conn.close()

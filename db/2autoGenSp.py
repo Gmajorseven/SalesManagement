@@ -34,7 +34,7 @@ def insert_salespersons(n):
         tel = fake_phone_number(fake)
         salary = round(fake.random_number(digits=7, fix_len=True) * 0.01, 2)
 
-        cursor.execute("INSERT INTO Salespersons(name, email, tel, salary) VALUES(?, ?, ?, ?)", (name, email, tel, salary))
+        cursor.execute("INSERT OR IGNORE INTO Salespersons(name, email, tel, salary) VALUES(?, ?, ?, ?)", (name, email, tel, salary))
 
     conn.commit()
     conn.close()
