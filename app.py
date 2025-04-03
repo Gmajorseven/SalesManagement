@@ -1,7 +1,9 @@
 # app.py
 from flask import Flask, render_template
 from routes import customer_bp, category_bp, product_bp  
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
 app.secret_key = 'secret_key'  # For flash messages
 
