@@ -62,7 +62,7 @@ def customers():
         # Apply Filters to Query
             query = """
                 SELECT Sales_transactions.st_id, Sales_transactions.st_date, Sales_transactions.st_total, Customers.name AS customer, Salespersons.name AS salesperson,
-                Products.name AS product, Products.price, Products.unit, Product_categories.name AS category
+                Products.name AS product, Products.price, Sales_products.purchased_qty, Product_categories.name AS category
                 FROM Sales_transactions
                 JOIN Sales_products ON Sales_transactions.st_id = Sales_products.sales_transaction_id
                 JOIN Products ON Sales_products.product_id = Products.pro_id
