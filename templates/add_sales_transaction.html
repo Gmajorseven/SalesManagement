@@ -2,6 +2,7 @@
 
 {% block content %}
 <h2>Add Sales Transaction</h2>
+<h3>Promotion: 10% off for total price 1000</h3>
 
 <form method="POST" action="/add_sales_transaction">
     <div class="mb-3">
@@ -69,6 +70,10 @@
             let totalPrice = price * qty;
             entry.querySelector('.price-display').value = totalPrice.toFixed(2);
             total += totalPrice;
+
+            if (total >= 1000) {
+                total = total*0.9;
+            }
         });
         document.getElementById('total-price').value = total.toFixed(2);
     }

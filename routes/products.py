@@ -27,7 +27,7 @@ def products():
         offset = (page - 1) * per_page
         
         # Query for the products with pagination
-        products = conn.execute('''SELECT Products.pro_id, Products.name, Products.price, Products.unit, Products.qty, Product_categories.name AS category
+        products = conn.execute('''SELECT Products.pro_id, Products.name, Products.price, Products.unit, Products.qty, Products.reorder_point, Product_categories.name AS category
         FROM Products JOIN Product_categories ON Products.category_id = Product_categories.proc_id LIMIT ? OFFSET ?''', (per_page, offset)).fetchall()
 
         # Get the total number of products for pagination
@@ -95,10 +95,11 @@ def edit_product(pro_id):
         unit = request.form['unit']
         qty = request.form['qty']
         category = request.form['category']
+        reorder_point = request.form['reorder_point']
 
         try:
-            conn.execute('UPDATE Products SET name = ?, price = ?, unit = ?, qty = ?, category_id = ? WHERE pro_id = ?', 
-                         (name, price, unit, qty, category, pro_id))
+            conn.execute('UPDATE Products SET name = ?, price = ?, unit = ?, qty = ?, category_id = ?, reorder_point = ? WHERE pro_id = ?', 
+                         (name, price, unit, qty, category, reorder_point, pro_id))
             conn.commit()
             conn.close()
             flash('Product updated successfully!', 'info')
@@ -148,6 +149,13 @@ def add_sales_transaction():
                 cur.execute('INSERT INTO Sales_products (sales_transaction_id, product_id, purchased_qty, status) VALUES (?, ?, ?, ?)',
                             (st_id, product_ids[i], quantities[i], status))
                 cur.execute('UPDATE Products SET qty = qty - ? WHERE pro_id = ?', (quantities[i], product_ids[i]))
+                # Check if the quantity is sufficient
+                qty_check = cur.execute('SELECT name, qty from Products WHERE pro_id = ?', product_ids[i]).fetchall()
+                #if qty_check[0]['qty'] <= 10:
+                #    flash(f"Warning: Product {qty_check[0]['name']} is running low on stock!", 'warning') 
+                #    cur.execute('UPDATE Products SET reorder_point = ? WHERE pro_id = ?','True', (product_ids[i],))
+                
+                print(qty_check[0]['name'], qty_check[0]['qty'])
 
             conn.commit()
             conn.close()

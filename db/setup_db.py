@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS Products (
     qty INTEGER NOT NULL CHECK(qty >= 0),
     category_id INTEGER NOT NULL,
     FOREIGN KEY (category_id) REFERENCES Product_categories(proc_id) ON DELETE CASCADE
+    reorder_point TEXT CHECK(reorder_point IN('True', 'False')) 
 ); ''')
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS Sales_transactions (

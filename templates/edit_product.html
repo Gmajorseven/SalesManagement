@@ -14,7 +14,10 @@
                 <option value="{{ category['proc_id'] }}" {% if category['proc_id'] == product['category'] %}selected{% endif %}>{{ category['name'] }}</option>
             {% endfor %}
         </select>
-        
+        <select name='reorder_point' class='form-control mb-2'>
+            <option value='False' {% if product['reorder_point'] == 'False' %}selected{% endif %}>No Reorder Point</option>
+            <option value='True' {% if product['reorder_point'] == 'True' %}selected{% endif %}>Reorder Point</option>
+        </select>
         <button type='submit' class='btn btn-success'>Update Product</button>
     </form>
 {% endblock %}
