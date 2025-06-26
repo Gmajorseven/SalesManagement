@@ -1,5 +1,6 @@
 .venv
 .flaskenv
 __pycache__
-db/*.db
-
+#ignore ./db/store.db
+*.db
+*.bak
