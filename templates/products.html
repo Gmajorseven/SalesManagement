@@ -29,7 +29,13 @@
                     <a href="/edit_product/{{ product['pro_id'] }}" class="btn btn-warning btn-sm">Edit</a>
                     <a href="/delete_product/{{ product['pro_id'] }}" class="btn btn-danger btn-sm">Delete</a>
                 </td>
-                <td>{{ product['reorder_point'] }}</td>
+                <td>
+                    {% if product['reorder_point'] == 0 %}
+                        No Reorder Point
+                    {% else %}
+                        Reorder Point
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>
