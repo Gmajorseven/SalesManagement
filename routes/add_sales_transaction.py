@@ -40,12 +40,10 @@ def add_sales_transaction():
                             (st_id, product_ids[i], quantities[i], status))
                 cur.execute('UPDATE Products SET qty = qty - ? WHERE pro_id = ?', (quantities[i], product_ids[i]))
                 # Check if the quantity is sufficient
-                qty_check = cur.execute('SELECT name, qty from Products WHERE pro_id = ?', product_ids[i]).fetchall()
-                #if qty_check[0]['qty'] <= 10:
-                #    flash(f"Warning: Product {qty_check[0]['name']} is running low on stock!", 'warning') 
-                #    cur.execute('UPDATE Products SET reorder_point = ? WHERE pro_id = ?','True', (product_ids[i],))
-                
-                print(qty_check[0]['name'], qty_check[0]['qty'])
+                qty_check = cur.execute('SELECT name, qty, reorder_point from Products WHERE pro_id = ?', (product_ids[i],)).fetchone()
+                if qty_check and qty_check['qty'] < 10 or qty_check['reorder_point'] == 'Reorder':
+                    flash(f"Warning: Product {qty_check['name']} is running low on stock (current quantity: {qty_check['qty']})!", 'warning')
+                    cur.execute('UPDATE Products SET reorder_point = ? WHERE pro_id = ?', ('Reorder', product_ids[i]))
 
             conn.commit()
             conn.close()

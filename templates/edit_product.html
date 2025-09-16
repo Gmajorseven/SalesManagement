@@ -15,8 +15,8 @@
             {% endfor %}
         </select>
         <select name='reorder_point' class='form-control mb-2'>
-            <option value=0 {% if product['reorder_point'] == 0 %}selected{% endif %}>No Reorder Point</option>
-            <option value=1 {% if product['reorder_point'] == 1 %}selected{% endif %}>Reorder Point</option>
+            <option value='Not-Reorder' {% if product['reorder_point'] == 'Not-Reorder' %}selected{% endif %}>No Reorder Point</option>
+            <option value='Reorder' {% if product['reorder_point'] == 'Reorder' %}selected{% endif %}>Reorder Point</option>
         </select>
         <button type='submit' class='btn btn-success'>Update Product</button>
     </form>
