@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS Products (
     unit TEXT NOT NULL,
     qty INTEGER NOT NULL CHECK(qty >= 0),
     category_id INTEGER NOT NULL,
-    reorder_point BOOLEAN CHECK(reorder_point IN (1, 0)) DEFAULT 0,
+    reorder_point TEXT CHECK(reorder_point IN ('Reorder', 'Not-Reorder')) DEFAULT 'Not-Reorder',
     FOREIGN KEY (category_id) REFERENCES Product_categories(proc_id) ON DELETE CASCADE
 ); ''')
 cursor.execute('''

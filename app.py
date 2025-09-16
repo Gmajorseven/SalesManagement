@@ -1,6 +1,6 @@
 # app.py
 from flask import Flask, render_template
-from routes import customer_bp, category_bp, product_bp  
+from routes import customer_bp, category_bp, product_bp, add_sales_transaction_bp  
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -17,6 +17,7 @@ def get_db_connection():
 app.register_blueprint(customer_bp)
 app.register_blueprint(category_bp)
 app.register_blueprint(product_bp)
+app.register_blueprint(add_sales_transaction_bp)
 
 # Home Route
 @app.route('/')
