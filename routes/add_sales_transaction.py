@@ -1,16 +1,10 @@
 # routes/add_sales_transaction.py
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-import sqlite3
+from db.conn_db import get_db_connection
 
 # Create a Blueprint for add_sales_transaction routes
 add_sales_transaction_bp = Blueprint('add_sales_transaction_bp', __name__)
 
-DATABASE = './db/store.db'
-
-def get_db_connection():
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
-    return conn
 
 # Route to add sales transaction
 @add_sales_transaction_bp.route('/add_sales_transaction', methods=['GET', 'POST'])

@@ -1,16 +1,9 @@
 # routes/category_routes.py
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-import sqlite3
+from db.conn_db import get_db_connection
 
 # Create a Blueprint for category routes
 category_bp = Blueprint('category_bp', __name__)
-
-DATABASE = './db/store.db'
-
-def get_db_connection():
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
-    return conn
 
 # Route to show categories
 @category_bp.route('/categories')

@@ -1,17 +1,11 @@
 # routes/customer_routes.py
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-import sqlite3
+from db.conn_db import get_db_connection
 
 # Create a Blueprint for customer routes
 customer_bp = Blueprint('customer_bp', __name__)
 
-DATABASE = './db/store.db'
 CUSTOMERS_PER_PAGE = 10  # Number of customers to show per page
-
-def get_db_connection():
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
-    return conn
 
 # Customers Route with pagination
 @customer_bp.route('/customers', methods=['GET', 'POST'])
